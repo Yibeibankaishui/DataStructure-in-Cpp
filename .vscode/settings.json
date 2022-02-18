@@ -2,6 +2,7 @@
     "files.associations": {
         "chrono": "cpp",
         "vector": "cpp",
-        "list": "cpp"
+        "list": "cpp",
+        "iosfwd": "cpp"
     }
 }
