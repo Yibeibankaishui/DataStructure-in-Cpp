@@ -32,9 +32,20 @@ class List{
                     return *this;
                 }
 
-                const_iterator & operator++(int){
+                const_iterator operator++(int){
                     const_iterator old = *this;
                     ++(*this);
+                    return old;     // 返回临时变量的引用？如果不返回引用，怎么做左值
+                }
+
+                const_iterator & operator--(){
+                    current = current -> prev;
+                    return *this;
+                }
+
+                const_iterator operator--(int){
+                    const_iterator old = *this;
+                    --(*this);
                     return old;
                 }
 
@@ -81,9 +92,20 @@ class List{
                     return *this;
                 }
 
-                iterator & operator++(int){
+                iterator operator++(int){
                     iterator old = *this;
                     ++(*this);
+                    return old;
+                }
+
+                iterator & operator--(){
+                    this -> current = this -> current -> prev;
+                    return *this;
+                }
+
+                iterator operator--(int){
+                    iterator old = *this;
+                    --(*this);
                     return old;
                 }
 
@@ -197,6 +219,27 @@ class List{
         const Object & back() const{
             return *--end();
         }
+
+        Object & operator[](int index){
+            if(index >= theSize){
+                std::cout << "index out of range! " << std::endl;
+                throw(IteratorOutOfBoundsException{ });
+            }
+            else{
+                int id = 0;
+                iterator itr = begin();
+                while(id < index){
+                    ++itr;
+                    ++id;
+                }
+                return *itr;
+            }
+        }
+
+        // const Object & operator[](int index) const{
+
+        //     return objects[index];
+        // }
 
         void push_front(const Object & x){
             insert(begin(), x);
