@@ -4,6 +4,24 @@
 #include <algorithm>
 #include <utility>
 #include <exception>
+#include <iostream>
+
+
+// 抽象类 linearlist
+template <typename Object>
+class linearlist{
+    public:
+        virtual ~linearlist(){};
+        virtual bool empty() const = 0;
+        virtual int size() const = 0;
+        virtual Object & get(int theIndex) const = 0;
+        virtual int indexOf(const Object & theElement) const = 0;
+        virtual void erase(int theIndex) = 0;
+        virtual void insert(int theIndex, const Object & theElement) = 0;
+        virtual void output(ostream & out) const = 0;
+
+};
+
 
 // 双链表 list
 template <typename Object>
@@ -383,11 +401,68 @@ class ListSingle{
 
     public:
         class const_iterator{
+            public:
+                const_iterator(): current(nullptr) { }
+
+                const Object & operator*() const{
+                    return retrieve();
+                }
+
+                const_iterator & operator++(){
+                    current = current -> next;
+                    return *this;
+                }
+
+                const_iterator operator++(int){
+                    const_iterator old = *this;
+                    ++(*this);
+                    return old;
+                }
+
+                bool operator==(const const_iterator & rhs) const{
+                    return current == rhs.current;
+                }
+
+                bool operator!=(const const_iterator & rhs) const{
+                    return !(*this == rhs);
+                }
+            
+            protected:
+                Node * current;
+                    
+                Object & retrieve() const{
+                    return current -> data;
+                }
+
+                const_iterator(Node * p): current(p) { }
 
         };
         
         class iterator : public const_iterator{
+            public:
+                iterator() { }
 
+                Object & operator*(){
+                    return const_iterator::retrieve();
+                }
+
+                const Object & operator*() const{
+                    return const_iterator::operator*();
+                }
+
+                iterator & operator++(){
+                    this -> current = this -> current -> next;
+                    return this;
+                }
+
+                iterator operator++(int){
+                    iterator old = *this;
+                    ++(*this);
+                    return old;
+                }
+
+            protected:
+                iterator(Node *p): const_iterator(p) { }
         };
 
     public:
