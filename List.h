@@ -18,7 +18,7 @@ class linearlist{
         virtual int indexOf(const Object & theElement) const = 0;
         virtual void erase(int theIndex) = 0;
         virtual void insert(int theIndex, const Object & theElement) = 0;
-        virtual void output(ostream & out) const = 0;
+        virtual void output(std::ostream & out) const = 0;
 
 };
 
@@ -454,6 +454,7 @@ class ListSingle{
                     if(current == nullptr)
                         throw IteratorOutOfBoundsException{ };
                 }
+                friend class ListSingle<Object>;
 
         };
         
@@ -471,7 +472,7 @@ class ListSingle{
 
                 iterator & operator++(){
                     this -> current = this -> current -> next;
-                    return this;
+                    return *this;
                 }
 
                 iterator operator++(int){
@@ -482,6 +483,7 @@ class ListSingle{
 
             protected:
                 iterator(Node *p): const_iterator(p) { }
+                friend class ListSingle<Object>;
         };
 
     public:
@@ -603,7 +605,7 @@ class ListSingle{
             else{
                 int id = 0;
                 const_iterator itr = begin();
-                while(id < index){
+                while(id < theIndex){
                     ++itr;
                     ++id;
                 }
@@ -623,7 +625,7 @@ class ListSingle{
             else{
                 int id = 0;
                 iterator itr = begin();
-                while(id < index){
+                while(id < theIndex){
                     ++itr;
                     ++id;
                 }
@@ -652,8 +654,10 @@ class ListSingle{
         void erase(int theIndex){
             iterator itr_prev = get(theIndex - 1);
             iterator itr_cur = get(theIndex); 
-            itr_prev.current -> next = itr_cur.current -> next;
-            delete itr_cur.current;
+            Node *prev = itr_prev.current;
+            Node *cur = itr_cur.current;
+            prev -> next = cur -> next;
+            delete cur;
             theSize--;
         }
 
