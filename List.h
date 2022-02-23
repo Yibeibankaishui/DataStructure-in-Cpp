@@ -289,6 +289,7 @@ class List{
         //     return {p -> prev = p -> prev -> next = new Node{x, p -> prev, p}};
         // }
 
+        // 在指向节点之前插入新节点
         iterator insert(iterator itr, const Object & x){
             itr.assertIsValid();
             if(itr.theList != this)
@@ -315,6 +316,7 @@ class List{
             return {*this, p -> prev = p -> prev -> next = new Node{std::move(x), p -> prev, p}};
         }
 
+        // // 删除当前节点，返回后一个节点
         // iterator erase(iterator itr){
         //     Node *p = itr.current;
         //     iterator retVal{p -> next};
@@ -398,6 +400,18 @@ class ListSingle{
             tail = new Node;
             head -> next = tail;
         }
+        
+        class IteratorMismatchException : public std::exception{
+            virtual const char * what() const throw(){
+                return "Iterator Mismatch ";
+            }
+        }; 
+
+        class IteratorOutOfBoundsException : public std::exception{
+            virtual const char * what() const throw(){
+                return "Iterator Out of Bounds ";
+            }
+        };
 
     public:
         class const_iterator{
@@ -435,6 +449,11 @@ class ListSingle{
                 }
 
                 const_iterator(Node * p): current(p) { }
+
+                void assertIsValid() const{
+                    if(current == nullptr)
+                        throw IteratorOutOfBoundsException{ };
+                }
 
         };
         
@@ -484,7 +503,9 @@ class ListSingle{
         }
 
         ListSingle & operator=(const ListSingle & rhs){
-
+            ListSingle copy = rhs;
+            std::swap(*this, copy);
+            return *this;
         }
 
         ListSingle(ListSingle && rhs): theSize(rhs.theSize), head(rhs.head){
@@ -501,19 +522,19 @@ class ListSingle{
         }
 
         iterator begin(){
-
+            return {head -> next};
         }
 
         const_iterator begin() const{
-
+            return {head -> next};
         }
 
         iterator end(){
-
+            return {tail};
         }
 
         const_iterator end() const{
-
+            return {tail};
         }  
 
         int size() const{
@@ -530,59 +551,128 @@ class ListSingle{
         }
 
         Object & front(){
-
+            return *begin();
         }
 
         const Object & front() const{
-
+            return *begin();
         }
 
-        Object & back(){
+        // Object & back(){ }
 
-        }
+        // const Object & back() const{ }
 
-        const Object & back() const{
-
-        }
-
+        // 在head节点之后插入
         void push_front(const Object & x){
-            insert(begin(), x);
+            iterator itr{head};
+            insert(itr, x);
         }
 
         void push_front(Object && x){
-            insert(begin(), std::move(x));
+            iterator itr{head};
+            insert(itr, std::move(x));
         }
 
+        // 在tail节点之前一个节点插入
         void push_back(const Object & x){
-            insert(end(), x);
+            insert(theSize - 1, x);
         }
 
         void push_back(Object && x){
-            insert(end(), std::move(x));
+            insert(theSize - 1, std::move(x));
         }
 
         void pop_front(){
-            erase(begin());
+            erase(0);
         }
 
         void pop_back(){
-            erase(--end());
+            erase(theSize - 1);
         }
 
-        iterator insert(iterator itr, const Object & x){
+        // 根据索引获得位置指针（迭代器）
+        const_iterator get(int theIndex) const{
+            if(theIndex >= theSize){
+                std::cout << "index out of range! " << std::endl;
+                throw(IteratorOutOfBoundsException{ });
+            }
+            else if(theIndex == -1){
+                iterator itr{head};
+                return itr;
+            }
+            else{
+                int id = 0;
+                const_iterator itr = begin();
+                while(id < index){
+                    ++itr;
+                    ++id;
+                }
+                return itr;
+            }
+        }
 
+        iterator get(int theIndex){
+            if(theIndex >= theSize){
+                std::cout << "index out of range! " << std::endl;
+                throw(IteratorOutOfBoundsException{ });
+            }
+            else if(theIndex == -1){
+                iterator itr{head};
+                return itr;
+            }
+            else{
+                int id = 0;
+                iterator itr = begin();
+                while(id < index){
+                    ++itr;
+                    ++id;
+                }
+                return itr;
+            }
+        }
+
+        // List[index]
+        Object & operator[](int theIndex){
+            iterator itr = get(theIndex);
+            return *itr;
+        }
+
+        // TODO: 根据索引，在后插入
+        void insert(int theIndex, const Object & element){
+            iterator itr = get(theIndex);
+            insert(itr, element);
+        }
+
+        void insert(int theIndex, Object && element){
+            iterator itr = get(theIndex);
+            insert(itr, element);
+        }
+
+        // 根据索引，删除
+        void erase(int theIndex){
+            iterator itr_prev = get(theIndex - 1);
+            iterator itr_cur = get(theIndex); 
+            itr_prev.current -> next = itr_cur.current -> next;
+            delete itr_cur.current;
+            theSize--;
+        }
+
+        // void erase(int theIndex_from, int theIndex_to){
+        // }
+
+        // 在节点之后插入
+        iterator insert(iterator itr, const Object & x){
+            itr.assertIsValid();
+            Node *p = itr.current;
+            theSize++;
+            return {p -> next = new Node(x, p -> next)};
         }
 
         iterator insert(iterator itr, Object && x){
-
-        }
-
-        iterator erase(iterator itr){
-
-        }
-
-        iterator erase(iterator from, iterator to){
-
+            itr.assertIsValid();
+            Node *p = itr.current;
+            theSize++;
+            return {p -> next = new Node(std::move(x), p -> next)};
         }
 
 };
