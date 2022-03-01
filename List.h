@@ -9,23 +9,23 @@
 
 // 抽象类 linearlist
 template <typename Object>
-class linearlist{
+class LinearList{
     public:
-        virtual ~linearlist(){};
+        virtual ~LinearList(){};
         virtual bool empty() const = 0;
         virtual int size() const = 0;
-        virtual Object & get(int theIndex) const = 0;
+        virtual const Object & get(int theIndex) const = 0;
         virtual int indexOf(const Object & theElement) const = 0;
         virtual void erase(int theIndex) = 0;
         virtual void insert(int theIndex, const Object & theElement) = 0;
-        virtual void output(std::ostream & out) const = 0;
+        virtual void output() const = 0;
 
 };
 
 
 // 双链表 list
 template <typename Object>
-class List{
+class List: public LinearList<Object> {
     private:
         struct Node{
             Object data;
@@ -220,6 +220,91 @@ class List{
                 pop_front();
         }
 
+        const Object & get(int theIndex) const {
+            auto itr = get_itr(theIndex);
+            return *itr;
+        }
+
+        // 查找element的index
+        int indexOf(const Object & theElement) const {
+            const_iterator itr = begin();
+            int id = 0;
+            for(; itr != end(); ++itr){
+                if(*itr == theElement){
+                    return id;
+                }
+                id++;
+            }
+            std::cout << "element not found !" << std::endl;
+            return -1;
+        }
+
+        // 根据索引获得位置指针（迭代器）
+        const_iterator get_itr(int theIndex) const{
+            if(theIndex >= theSize){
+                std::cout << "index out of range! " << std::endl;
+                throw(IteratorOutOfBoundsException{ });
+            }
+            else if(theIndex == -1){
+                iterator itr{*this, head};
+                return itr;
+            }
+            else{
+                int id = 0;
+                const_iterator itr = begin();
+                while(id < theIndex){
+                    ++itr;
+                    ++id;
+                }
+                return itr;
+            }
+        }
+
+        iterator get_itr(int theIndex){
+            if(theIndex >= theSize){
+                std::cout << "index out of range! " << std::endl;
+                throw(IteratorOutOfBoundsException{ });
+            }
+            else if(theIndex == -1){
+                iterator itr{*this, head};
+                return itr;
+            }
+            else{
+                int id = 0;
+                iterator itr = begin();
+                while(id < theIndex){
+                    ++itr;
+                    ++id;
+                }
+                return itr;
+            }
+        }
+
+        // 删除指定元素
+        void erase(int theIndex) {
+            iterator itr = get_itr(theIndex);
+            erase(itr);
+        }
+
+
+        void insert(int theIndex, const Object & theElement) {
+            iterator itr = get_itr(theIndex);
+            itr++;
+            insert(itr, theElement);
+        }
+
+        void output() const {
+            if (empty())
+                std::cout << "(empty)" << std::endl;
+            else{
+                const_iterator itr = begin();
+                std::cout << "[ " << *itr++;
+                while(itr != end())
+                    std::cout << ", " << *itr++;
+                std::cout << " ]" << std::endl;
+            }  
+        }
+
         // 返回第一个元素值
         Object & front(){
             return *begin();
@@ -379,7 +464,7 @@ class List{
 
 // 单链表实现
 template <typename Object>
-class ListSingle{
+class ListSingle: public LinearList<Object> {
     private:
         struct Node{
             Object data;
@@ -593,7 +678,7 @@ class ListSingle{
         }
 
         // 根据索引获得位置指针（迭代器）
-        const_iterator get(int theIndex) const{
+        const_iterator get_itr(int theIndex) const{
             if(theIndex >= theSize){
                 std::cout << "index out of range! " << std::endl;
                 throw(IteratorOutOfBoundsException{ });
@@ -613,7 +698,7 @@ class ListSingle{
             }
         }
 
-        iterator get(int theIndex){
+        iterator get_itr(int theIndex){
             if(theIndex >= theSize){
                 std::cout << "index out of range! " << std::endl;
                 throw(IteratorOutOfBoundsException{ });
@@ -635,25 +720,55 @@ class ListSingle{
 
         // List[index]
         Object & operator[](int theIndex){
-            iterator itr = get(theIndex);
+            iterator itr = get_itr(theIndex);
             return *itr;
         }
 
-        // TODO: 根据索引，在后插入
-        void insert(int theIndex, const Object & element){
-            iterator itr = get(theIndex);
-            insert(itr, element);
+        const Object & get(int theIndex) const{
+            const_iterator itr = get_itr(theIndex);
+            return *itr;
         }
 
-        void insert(int theIndex, Object && element){
-            iterator itr = get(theIndex);
-            insert(itr, element);
+        int indexOf(const Object & theElement) const{
+            const_iterator itr = begin();
+            int id = 0;
+            for(; itr != end(); ++itr){
+                if(*itr == theElement){
+                    return id;
+                }
+                id++;
+            }
+            std::cout << "element not found !" << std::endl;
+            return -1;
+        }
+
+        void output() const{
+            if (empty())
+                std::cout << "(empty)" << std::endl;
+            else{
+                const_iterator itr = begin();
+                std::cout << "[ " << *itr++;
+                while(itr != end())
+                    std::cout << ", " << *itr++;
+                std::cout << " ]" << std::endl;
+            }    
+        }
+
+        // TODO: 根据索引，在后插入
+        void insert(int theIndex, const Object & theElement){
+            iterator itr = get_itr(theIndex);
+            insert(itr, theElement);
+        }
+
+        void insert(int theIndex, Object && theElement){
+            iterator itr = get_itr(theIndex);
+            insert(itr, theElement);
         }
 
         // 根据索引，删除
         void erase(int theIndex){
-            iterator itr_prev = get(theIndex - 1);
-            iterator itr_cur = get(theIndex); 
+            iterator itr_prev = get_itr(theIndex - 1);
+            iterator itr_cur = get_itr(theIndex); 
             Node *prev = itr_prev.current;
             Node *cur = itr_cur.current;
             prev -> next = cur -> next;

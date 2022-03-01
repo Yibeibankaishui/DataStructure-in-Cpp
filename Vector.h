@@ -101,6 +101,10 @@ class Vector{
             return objects[theSize - 1];
         }
 
+        Object & back (){
+            return objects[theSize - 1];
+        }
+
         typedef Object * iterator;
         typedef const Object * const_iterator;
 

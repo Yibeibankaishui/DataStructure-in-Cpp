@@ -2,6 +2,7 @@
 
 #include "List.h"
 #include "Vector.h"
+#include "Stack.h"
 
 using namespace std;
 
@@ -19,30 +20,38 @@ auto end(Container& c) -> decltype(c.end()){
 template <typename Container>
 void print(const Container& c, ostream& out = cout){
     if (c.empty())
-        out << "(empty)";
+        out << "(empty)" << endl;
     else{
         auto itr = begin(c);
 
-        out << "[ " << *itr++;
+        out << "[ " << *(itr++);
 
-        while(itr  != end(c))
-            out << ", " << *itr++;
+        while(itr != end(c))
+            out << ", " << *(itr++);
         out << " ]" << endl;
     }    
 }
 
 int main(int argc, char **argv){
 
-    List<int> list1;
-    int x = 1;
-    list1.push_back(x);
-    list1.push_back(2);
-    list1.push_back(10);
-    print(list1);
+    ListSingle<int> list1;
 
-    cout << list1.back() << endl;
-
-
+    Stack_list<char> stack_1;
+    // Stack_vector<double> stack_2;
+    print(stack_1);
+    stack_1.push('d');
+    stack_1.push('(');
+    cout << stack_1.top() << endl;
+    print(stack_1);
+    stack_1.push(1);
+    stack_1.push(8);
+    print(stack_1);
+    stack_1.push(21);
+    stack_1.push(3);
+    cout << stack_1.top() << endl;
+    print(stack_1);
+    stack_1.pop();
+    print(stack_1);
 
     return 0;
 }
