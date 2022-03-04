@@ -12,7 +12,7 @@ class Queue_list{
 
 template <typename Object>
 class Queue_vector{
-    
+                        
 };
 
 

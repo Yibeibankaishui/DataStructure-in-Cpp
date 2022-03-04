@@ -1,0 +1,10 @@
+/Users/yibeibankaishui/Desktop/CPP_learn/build/CMakeFiles/maintest.dir
+/Users/yibeibankaishui/Desktop/CPP_learn/build/CMakeFiles/edit_cache.dir
+/Users/yibeibankaishui/Desktop/CPP_learn/build/CMakeFiles/rebuild_cache.dir
+/Users/yibeibankaishui/Desktop/CPP_learn/build/algorithms/CMakeFiles/PostfixNotation.dir
+/Users/yibeibankaishui/Desktop/CPP_learn/build/algorithms/CMakeFiles/SymbolBalance.dir
+/Users/yibeibankaishui/Desktop/CPP_learn/build/algorithms/CMakeFiles/edit_cache.dir
+/Users/yibeibankaishui/Desktop/CPP_learn/build/algorithms/CMakeFiles/rebuild_cache.dir
+/Users/yibeibankaishui/Desktop/CPP_learn/build/utilities/CMakeFiles/Utilities.dir
+/Users/yibeibankaishui/Desktop/CPP_learn/build/utilities/CMakeFiles/edit_cache.dir
+/Users/yibeibankaishui/Desktop/CPP_learn/build/utilities/CMakeFiles/rebuild_cache.dir

@@ -1,3 +1,0 @@
-/Users/yibeibankaishui/Desktop/CPP_learn/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/Users/yibeibankaishui/Desktop/CPP_learn/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/yibeibankaishui/Desktop/CPP_learn/cmake-build-debug/CMakeFiles/CPP_learn.dir

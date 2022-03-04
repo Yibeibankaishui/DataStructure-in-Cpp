@@ -3,7 +3,8 @@
         {
             "name": "Mac",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/../**"
             ],
             "defines": [],
             "macFrameworkPath": [
@@ -11,8 +12,8 @@
             ],
             "compilerPath": "/usr/bin/clang++",
             "cStandard": "c17",
-            "cppStandard": "c++11",
-            "intelliSenseMode": "macos-clang-arm64",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "macos-gcc-arm64",
             "compilerArgs": [
                 "-std=c++11"
             ]

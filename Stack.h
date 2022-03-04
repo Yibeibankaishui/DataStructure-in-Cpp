@@ -33,6 +33,10 @@ class Stack_list: public Stack<Object>, public ListSingle<Object>{
         Object & top(){
             return ListSingle<Object>::front();
         }
+        void pop(Object & pop_element){
+            pop_element = ListSingle<Object>::front();
+            pop();
+        }
 };
 
 
@@ -53,7 +57,10 @@ class Stack_vector: public Stack<Object>, public Vector<Object>{
         Object & top(){
             return Vector<Object>::back();
         }
-
+        void pop(Object & pop_element){
+            pop_element = Vector<Object>::back();
+            pop();
+        }
 };
 
 

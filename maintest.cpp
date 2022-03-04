@@ -36,22 +36,30 @@ int main(int argc, char **argv){
 
     ListSingle<int> list1;
 
-    Stack_list<char> stack_1;
+    Stack_list<int> stack_1;
+    int pop1;
+    int pop2;
     // Stack_vector<double> stack_2;
     print(stack_1);
-    stack_1.push('d');
-    stack_1.push('(');
-    cout << stack_1.top() << endl;
-    print(stack_1);
     stack_1.push(1);
+    print(stack_1);
+    stack_1.push(2);
+    print(stack_1);
+    stack_1.push(3);
+    print(stack_1);
     stack_1.push(8);
     print(stack_1);
+    stack_1.pop(pop1);
+    print(stack_1);
     stack_1.push(21);
-    stack_1.push(3);
-    cout << stack_1.top() << endl;
     print(stack_1);
-    stack_1.pop();
+    stack_1.push(30);
     print(stack_1);
+    // cout << stack_1.top() << endl;
+    // print(stack_1);
+    stack_1.pop(pop2);
+    print(stack_1);
+    cout << pop1 << "    " << pop2 << endl;
 
     return 0;
 }

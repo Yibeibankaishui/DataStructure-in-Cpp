@@ -26,9 +26,7 @@ void print(const Container& c, ostream& out = cout){
         out << "(empty)";
     else{
         auto itr = begin(c);
-
         out << "[ " << *itr++;
-
         while(itr  != end(c))
             out << ", " << *itr++;
         out << " ]" << endl;

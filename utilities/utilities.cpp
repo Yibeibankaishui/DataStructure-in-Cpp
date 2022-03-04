@@ -16,3 +16,16 @@ int file_to_token(ifstream & input_file, vector<string> & dst_vector){
     return 1;
 }
 
+// int main(int argc, char **argv){
+
+//     string filename("../algorithms/input_2.txt");
+//     ifstream input_file(filename);
+//     vector<string> token_vec{};
+//     if(file_to_token(input_file, token_vec)){
+//         cout << token_vec.size() << endl;
+//     }
+//     for (auto token: token_vec){
+//         cout << token << endl;
+//     }
+//     return 0;
+// }
