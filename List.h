@@ -464,7 +464,7 @@ class List: public LinearList<Object> {
 
 // 单链表实现
 template <typename Object>
-class ListSingle: public LinearList<Object> {
+class ListSingle: public LinearList<Object> {   
     private:
         struct Node{
             Object data;
