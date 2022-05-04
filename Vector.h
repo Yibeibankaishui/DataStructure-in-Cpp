@@ -97,6 +97,7 @@ class Vector{
             --theSize;
         }
 
+        // 末尾元素
         const Object & back () const{
             return objects[theSize - 1];
         }
@@ -108,6 +109,7 @@ class Vector{
         typedef Object * iterator;
         typedef const Object * const_iterator;
 
+        // 获取首指针
         iterator begin(){
             return &objects[0];
         }
@@ -116,6 +118,7 @@ class Vector{
             return &objects[0];
         }
 
+        // 获取末指针
         iterator end(){
             return &objects[size()];
         }
