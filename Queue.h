@@ -2,6 +2,7 @@
 #define QUEUE_H
 
 #include "List.h"
+#include <exception>
 
 // TODO: queue的list和vector实现
 template <typename Object>
@@ -52,6 +53,13 @@ class Queue_vector: public Queue<Object>, public Vector<Object> {
     private:
         int front;
         int back;
+    
+    private:
+        class QueueEmptyException : public std::exception {
+            virtual const char *what() const throw() { 
+                return "Queue is Empty ";
+                }
+        };
 
     public:
         Queue_vector() : Queue<Object>(), Vector<Object>() {
@@ -64,24 +72,30 @@ class Queue_vector: public Queue<Object>, public Vector<Object> {
 
         void EnQueue(const Object & element) {
             int Capacity = Vector::capacity();
-            // 回转操作
-            if (back == Capacity - 1) {
-                if (currentSize < Capacity) {
-                    back = 0;
-                    
+            // queue 满
+            if (currentSize == Capacity) {
+                if (back <= front) {
+                    Vector::reserve(2 * currentSize);
+                    for (int k = front; k < currentSize; k++) {
+                        *this[k + currentSize] = std::move(*this[k]);
+                    }
                 }
                 else {
-                    Vector::resize(2 * Capacity + 1); 
-                    back++;
-                    
+                    Vector::reserve(2 * currentSize);
                 }
+                Capacity = 2 * currentSize;
             }
+
             // 第一次enqueue操作，queue为空
             if (currentSize == 0) && (back == front){
                 *this[back] = element;
                 return;
             }
-            if (currentSize != 0) {
+            // 回转操作
+            if (back == Capacity - 1) {
+                back = 0;
+            }
+            else if (currentSize != 0) {
                 back++;
             }
             
@@ -91,7 +105,34 @@ class Queue_vector: public Queue<Object>, public Vector<Object> {
         }
 
         void EnQueue(Object && element) {
+            // queue 满
+            if (currentSize == Capacity) {
+                if (back <= front) {
+                    Vector::reserve(2 * currentSize);
+                    for (int k = front; k < currentSize; k++) {
+                        *this[k + currentSize] = std::move(*this[k]);
+                    }
+                }
+                else {
+                    Vector::reserve(2 * currentSize);
+                }
+                Capacity = 2 * currentSize;
+            }
+
+            // 第一次enqueue操作，queue为空
+            if (currentSize == 0) && (back == front){
+                *this[back] = std::move(element);
+                return;
+            }
+            // 回转操作
+            if (back == Capacity - 1) {
+                back = 0;
+            }
+            else if (currentSize != 0) {
+                back++;
+            }
             
+            *this[back] = std::move(element);
             currentSize++;
         }
 
@@ -99,8 +140,9 @@ class Queue_vector: public Queue<Object>, public Vector<Object> {
             int Capacity = Vector::capacity();
             // queue空
             if (currentSize == 0) {
-                
+                throw QueueEmptyException { };
             }
+            Object ret = *this[front];
             // front在末尾
             if (front == Capacity - 1) {
                 front = 0;
@@ -109,7 +151,7 @@ class Queue_vector: public Queue<Object>, public Vector<Object> {
                 front++;
             }
             currentSize--;
-            return *this[front];
+            return ret;
         }
 
 };
