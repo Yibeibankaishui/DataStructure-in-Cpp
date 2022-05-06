@@ -1,3 +1,5 @@
+// 计算后缀表达式的值
+
 #include "Stack.h"
 #include <iostream>
 #include <fstream>
@@ -15,9 +17,7 @@ double count_postfix_notation(vector<string> & token_vector){
         double numl, numr, token_num = 0;
         if(token == "+"){
             cal_stack.pop(numl);
-
             cal_stack.pop(numr);
- 
             cal_stack.push(numl + numr);
         }
         else if(token == "-"){

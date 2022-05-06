@@ -14,4 +14,7 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/../bin/algorithms)
 add_executable(PostfixNotation PostfixNotation.cpp)
 target_link_libraries(PostfixNotation Utilities)
 
+add_executable(InfixToPostfix InfixToPostfix.cpp)
+target_link_libraries(InfixToPostfix Utilities)
+
 add_executable(SymbolBalance SymbolBalance.cpp)
