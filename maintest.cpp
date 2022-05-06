@@ -3,6 +3,7 @@
 #include "List.h"
 #include "Vector.h"
 #include "Stack.h"
+#include "Queue.h"
 
 using namespace std;
 
@@ -37,29 +38,22 @@ int main(int argc, char **argv){
     ListSingle<int> list1;
 
     Stack_list<int> stack_1;
-    int pop1;
-    int pop2;
-    // Stack_vector<double> stack_2;
-    print(stack_1);
-    stack_1.push(1);
-    print(stack_1);
-    stack_1.push(2);
-    print(stack_1);
-    stack_1.push(3);
-    print(stack_1);
-    stack_1.push(8);
-    print(stack_1);
-    stack_1.pop(pop1);
-    print(stack_1);
-    stack_1.push(21);
-    print(stack_1);
-    stack_1.push(30);
-    print(stack_1);
-    // cout << stack_1.top() << endl;
-    // print(stack_1);
-    stack_1.pop(pop2);
-    print(stack_1);
-    cout << pop1 << "    " << pop2 << endl;
+
+    Queue_vector<int> queue_1;
+    Queue_list<int> queue_2;
+    queue_1.EnQueue(1);
+    print(queue_1);
+    queue_1.EnQueue(7);
+    queue_1.EnQueue(8);
+    queue_1.EnQueue(11);
+    print(queue_1);
+    queue_1.DeQueue();
+    print(queue_1);
+    queue_1.DeQueue();
+    queue_1.DeQueue();
+    queue_1.DeQueue();
+    
+    // cout << pop1 << "    " << pop2 << endl;
 
     return 0;
 }

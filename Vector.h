@@ -132,6 +132,8 @@ class Vector{
     private:
         int theSize;
         int theCapacity;
+    
+    protected:
         Object * objects;
 
 };
